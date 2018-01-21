@@ -1,4 +1,4 @@
-package com.github.jorgecastillo.kotlinandroid.view
+package com.github.jorgecastillo.kotlinandroid.tagless.algebras.ui.extensions
 
 import android.widget.ImageView
 import com.squareup.picasso.Picasso
