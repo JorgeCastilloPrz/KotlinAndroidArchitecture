@@ -6,8 +6,8 @@ import arrow.TC
 import arrow.typeclass
 import arrow.typeclasses.MonadError
 import arrow.typeclasses.binding
-import com.github.jorgecastillo.kotlinandroid.tagless.algebras.services.HeroesService
-import com.github.jorgecastillo.kotlinandroid.tagless.algebras.services.model.CharacterError
+import com.github.jorgecastillo.kotlinandroid.tagless.algebras.business.HeroesUseCases
+import com.github.jorgecastillo.kotlinandroid.tagless.algebras.business.model.CharacterError
 import com.github.jorgecastillo.kotlinandroid.tagless.algebras.ui.model.SuperHeroViewModel
 import com.karumi.marvelapiclient.model.CharacterDto
 import com.karumi.marvelapiclient.model.MarvelImage
@@ -38,7 +38,7 @@ interface Presentation<F> : TC {
 
     fun navigation(): Navigation<F>
 
-    fun heroesService(): HeroesService<F>
+    fun heroesService(): HeroesUseCases<F>
 
     fun ME(): MonadError<F, Throwable>
 

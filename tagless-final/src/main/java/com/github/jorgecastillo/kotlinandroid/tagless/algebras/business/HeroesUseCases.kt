@@ -1,4 +1,4 @@
-package com.github.jorgecastillo.kotlinandroid.tagless.algebras.services
+package com.github.jorgecastillo.kotlinandroid.tagless.algebras.business
 
 import arrow.HK
 import arrow.TC
@@ -7,7 +7,7 @@ import com.github.jorgecastillo.kotlinandroid.tagless.algebras.persistence.Heroe
 import com.karumi.marvelapiclient.model.CharacterDto
 
 @typeclass
-interface HeroesService<F> : TC {
+interface HeroesUseCases<F> : TC {
 
     fun repository(): HeroesRepository<F>
 
