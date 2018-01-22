@@ -7,6 +7,7 @@ import arrow.core.Either.Right
 import arrow.core.FunctionK
 import arrow.data.Try
 import arrow.effects.Async
+import arrow.free.foldMap
 import arrow.syntax.applicativeerror.catch
 import arrow.syntax.either.right
 import arrow.typeclasses.MonadError
@@ -19,6 +20,9 @@ import com.github.jorgecastillo.kotlinandroid.domain.model.CharacterError.Authen
 import com.github.jorgecastillo.kotlinandroid.domain.model.CharacterError.NotFoundError
 import com.github.jorgecastillo.kotlinandroid.domain.model.CharacterError.UnknownServerError
 import com.github.jorgecastillo.kotlinandroid.free.algebra.HeroesAlgebra
+import com.github.jorgecastillo.kotlinandroid.free.algebra.HeroesAlgebraHK
+import com.github.jorgecastillo.kotlinandroid.free.algebra.HeroesAlgebraKind
+import com.github.jorgecastillo.kotlinandroid.free.algebra.ev
 import com.github.jorgecastillo.kotlinandroid.view.viewmodel.SuperHeroViewModel
 import com.karumi.marvelapiclient.model.CharacterDto
 import com.karumi.marvelapiclient.model.CharactersQuery.Builder

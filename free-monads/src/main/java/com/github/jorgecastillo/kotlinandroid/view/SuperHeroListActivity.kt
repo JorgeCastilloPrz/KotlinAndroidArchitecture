@@ -5,7 +5,7 @@ import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import arrow.effects.IO
-import arrow.effects.asyncContext
+import arrow.effects.async
 import arrow.effects.ev
 import arrow.effects.monadError
 import arrow.free.foldMap
@@ -65,6 +65,6 @@ class SuperHeroListActivity : AppCompatActivity(), SuperHeroesListView {
 
 fun <A> FreeHeroesAlgebra<A>.unsafePerformEffects(ctx: SuperHeroesContext): Unit {
   val ME = IO.monadError()
-  val result: IO<A> = this.foldMap(interpreter(ctx, ME, IO.asyncContext()), ME).ev()
+  val result: IO<A> = this.foldMap(interpreter(ctx, ME, IO.async()), ME).ev()
   result.unsafeRunAsync { TODO() }
 }
