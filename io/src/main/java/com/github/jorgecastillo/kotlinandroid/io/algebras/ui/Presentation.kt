@@ -5,8 +5,8 @@ import arrow.effects.IO
 import arrow.effects.ev
 import arrow.effects.monadError
 import arrow.typeclasses.binding
-import com.github.jorgecastillo.kotlinandroid.io.algebras.services.HeroesService
-import com.github.jorgecastillo.kotlinandroid.io.algebras.services.model.CharacterError
+import com.github.jorgecastillo.kotlinandroid.io.algebras.business.HeroesUseCases
+import com.github.jorgecastillo.kotlinandroid.io.algebras.business.model.CharacterError
 import com.github.jorgecastillo.kotlinandroid.io.algebras.ui.model.SuperHeroViewModel
 import com.karumi.marvelapiclient.model.CharacterDto
 import com.karumi.marvelapiclient.model.MarvelImage.Size.PORTRAIT_UNCANNY
@@ -47,7 +47,7 @@ object Presentation {
   fun drawSuperHeroes(view: SuperHeroesListView): IO<Unit> {
     val monadError = IO.monadError()
     return monadError.binding {
-      val result = monadError.handleError(HeroesService.getHeroes(), { displayErrors(view, it); emptyList() }).bind()
+      val result = monadError.handleError(HeroesUseCases.getHeroes(), { displayErrors(view, it); emptyList() }).bind()
       monadError.pure(view.drawHeroes(result.map {
         SuperHeroViewModel(
             it.id,
@@ -61,7 +61,7 @@ object Presentation {
   fun drawSuperHeroDetails(heroId: String, view: SuperHeroDetailView): IO<Unit> {
     val monadError = IO.monadError()
     return monadError.binding {
-      val result = monadError.handleError(HeroesService.getHeroDetails(heroId),
+      val result = monadError.handleError(HeroesUseCases.getHeroDetails(heroId),
           { displayErrors(view, it); CharacterDto() }).bind()
       monadError.pure(view.drawHero(SuperHeroViewModel(
           result.id,

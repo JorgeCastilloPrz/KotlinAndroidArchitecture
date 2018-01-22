@@ -1,4 +1,4 @@
-package com.github.jorgecastillo.kotlinandroid.io.algebras.services.model
+package com.github.jorgecastillo.kotlinandroid.io.algebras.business.model
 
 import arrow.core.None
 import arrow.core.Option
