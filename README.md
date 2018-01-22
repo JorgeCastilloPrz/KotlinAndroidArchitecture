@@ -1,6 +1,6 @@
 ArrowAndroidSamples
 ===================
-[![Build Status](https://www.bitrise.io/app/10edb6301af99ad4/status.svg?token=V3W1vKcNZknWnWzEX1M7Hw&branch=master)](https://www.bitrise.io/app/10edb6301af99ad4)
+[![Build Status](https://travis-ci.org/JorgeCastilloPrz/ArrowAndroidSamples.svg?branch=improve-reader-usage)](https://travis-ci.org/JorgeCastilloPrz/ArrowAndroidSamples)
 [![Kotlin version badge](https://img.shields.io/badge/kotlin-1.2.10-blue.svg)](http://kotlinlang.org/)
 
 <img height="100" src="https://avatars2.githubusercontent.com/u/29458023?v=4&amp;s=200" width="100">
@@ -131,4 +131,3 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
