@@ -6,11 +6,13 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
+import arrow.effects.ev
 import com.github.jorgecastillo.kotlinandroid.R
 import com.github.jorgecastillo.kotlinandroid.R.string
 import com.github.jorgecastillo.kotlinandroid.tagless.algebras.ui.SuperHeroDetailView
 import com.github.jorgecastillo.kotlinandroid.tagless.algebras.ui.extensions.loadImageAsync
 import com.github.jorgecastillo.kotlinandroid.tagless.algebras.ui.model.SuperHeroViewModel
+import com.github.jorgecastillo.kotlinandroid.tagless.algebras.ui.presentation
 import com.github.jorgecastillo.kotlinandroid.tagless.runtime.instances.TargetRuntime
 import kotlinx.android.synthetic.main.activity_detail.appBar
 import kotlinx.android.synthetic.main.activity_detail.collapsingToolbar

@@ -19,8 +19,6 @@ import kotlinx.coroutines.experimental.async
 @typeclass
 interface DataSource<F> : TC {
 
-    fun ME(): MonadError<F, Throwable>
-
     fun AC(): Async<F>
 
     private val apiClient
@@ -50,23 +48,23 @@ interface DataSource<F> : TC {
     }
 
     fun fetchAllHeroes(): HK<F, List<CharacterDto>> =
-        ME().binding {
+        AC().binding {
             val query = buildFetchHeroesQuery()
             runInAsyncContext(
                     f = { fetchHeroes(query) },
-                    onError = { ME().raiseError<List<CharacterDto>>(it) },
-                    onSuccess = { ME().pure(it) },
+                    onError = { AC().raiseError<List<CharacterDto>>(it) },
+                    onSuccess = { AC().pure(it) },
                     AC = AC()
             ).bind()
         }
 
 
     fun fetchHeroDetails(heroId: String): HK<F, CharacterDto> =
-            ME().binding {
+            AC().binding {
                 runInAsyncContext(
                         f = { fetchHero(heroId) },
-                        onError = { ME().raiseError<CharacterDto>(it) },
-                        onSuccess = { ME().pure(it) },
+                        onError = { AC().raiseError<CharacterDto>(it) },
+                        onSuccess = { AC().pure(it) },
                         AC = AC()
                 ).bind()
             }
