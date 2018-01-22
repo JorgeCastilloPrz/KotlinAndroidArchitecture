@@ -1,12 +1,11 @@
-Kotlin Android Functional Architecture
-======================================
-[![Build Status](https://www.bitrise.io/app/10edb6301af99ad4/status.svg?token=V3W1vKcNZknWnWzEX1M7Hw&branch=master)](https://www.bitrise.io/app/10edb6301af99ad4)
+ArrowAndroidSamples
+===================
+[![Build Status](https://travis-ci.org/JorgeCastilloPrz/ArrowAndroidSamples.svg?branch=improve-reader-usage)](https://travis-ci.org/JorgeCastilloPrz/ArrowAndroidSamples)
 [![Kotlin version badge](https://img.shields.io/badge/kotlin-1.2.10-blue.svg)](http://kotlinlang.org/)
-[![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0) [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 
-![Kotlin logo](assets/ic_launcher.png)
+<img height="100" src="https://avatars2.githubusercontent.com/u/29458023?v=4&amp;s=200" width="100">
 
-Functional Programing based architectures over Android using [kategory](http://kategory.io/)
+Functional Programing Android architecture approaches using [Arrow](http://arrow-kt.io/)
 
 # How to import it
 
@@ -20,10 +19,10 @@ your home `gradle.properties` to be able to compile or run it. You can also add 
 # Main framework being used
 
 To achieve **functional programing** over Kotlin I am using a library that we have been working on 
-in the spanish dev community. It's called [kategory](https://github.com/kategory/kategory) and its first 
+in the spanish dev community. It's called [Arrow](https://github.com/arrow-kt/arrow) and its first
 official release is around the corner!
 
-Big thanks to all the lib contributors which I am part of. [Here they are](https://github.com/kategory/kategory/graphs/contributors). 
+Big thanks to all the lib contributors which I am part of. [Here they are](https://github.com/arrow-kt/arrow/graphs/contributors).
 
 # Strategies showcased on this repo
 
@@ -49,7 +48,7 @@ which concrete types to use to the moment when we want to run the code.
 [You will really want to look at this PR to have a very good and detailed description of what tagless-final is](https://github.com/JorgeCastilloPrz/KotlinAndroidFunctional/pull/2).
 
 ## Free Monads 
-This FP style is very trendy. We are applying it over Android thanks to Kategory here, on the `free-monads` project module. It's highly recommended to take a look at [this PR](https://github.com/JorgeCastilloPrz/KotlinAndroidFunctional/pull/6) in order to understand the approach.
+This FP style is very trendy. We are applying it over Android thanks to Arrow here, on the `free-monads` project module. It's highly recommended to take a look at [this PR](https://github.com/JorgeCastilloPrz/KotlinAndroidFunctional/pull/6) in order to understand the approach.
 **Free Monads** is based on the idea of composing an **AST** (abstract syntax tree) of computations with  type `Free<S, A>`, where `S` is your algebra, which will never depend on implementation details but on abstractions defined by an algebra, which is an algebraic data type (ADT). We are defining it through a `sealed` class on this sample. 
 Those ops can be combined as blocks to create more complex ones. Then, we need an **interpreter** which will be in charge to provide implementation details for the moment when the user decides to run the whole AST providing semantics to it and a `Monad` instance to resolve all effects / perform execution of effects in a controlled context. The user has the power of chosing which interpreter to use and which monad instance he wants to solve the problem. That enables testing, since we can easily remove our real side effects in the app at our testing environment by switching the interpreter by a fake one.
 
@@ -132,4 +131,3 @@ License
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
