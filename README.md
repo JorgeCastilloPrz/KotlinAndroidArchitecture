@@ -115,7 +115,7 @@ Developed By
 License
 -------
 
-    Copyright 2017 Jorge Castillo Pérez
+    Copyright 2018 Jorge Castillo Pérez
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
