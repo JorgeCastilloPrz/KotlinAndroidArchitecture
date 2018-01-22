@@ -4,14 +4,12 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import arrow.effects.ev
 import com.github.jorgecastillo.kotlinandroid.R
 import com.github.jorgecastillo.kotlinandroid.tagless.algebras.ui.SuperHeroesListView
-import com.github.jorgecastillo.kotlinandroid.tagless.algebras.ui.presentation
-import com.github.jorgecastillo.kotlinandroid.tagless.runtime.instances.TargetRuntime
 import com.github.jorgecastillo.kotlinandroid.tagless.algebras.ui.adapter.HeroesCardAdapter
 import com.github.jorgecastillo.kotlinandroid.tagless.algebras.ui.model.SuperHeroViewModel
-import kotlinx.android.synthetic.main.activity_main.*
+import com.github.jorgecastillo.kotlinandroid.tagless.runtime.instances.TargetRuntime
+import kotlinx.android.synthetic.main.activity_main.heroesList
 
 class SuperHeroListActivity : AppCompatActivity(), SuperHeroesListView {
 

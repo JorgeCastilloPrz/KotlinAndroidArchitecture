@@ -3,7 +3,7 @@ package com.github.jorgecastillo.kotlinandroid.tagless.algebras.persistence
 import arrow.HK
 import arrow.TC
 import arrow.data.Try
-import arrow.effects.AsyncContext
+import arrow.effects.Async
 import arrow.syntax.either.right
 import arrow.typeclass
 import arrow.typeclasses.MonadError
@@ -21,7 +21,7 @@ interface DataSource<F> : TC {
 
     fun ME(): MonadError<F, Throwable>
 
-    fun AC(): AsyncContext<F>
+    fun AC(): Async<F>
 
     private val apiClient
         get() = CharacterApiClient(MarvelApiConfig.Builder(
@@ -40,8 +40,8 @@ interface DataSource<F> : TC {
     private fun <F, A, B> runInAsyncContext(
             f: () -> A,
             onError: (Throwable) -> B,
-            onSuccess: (A) -> B, AC: AsyncContext<F>): HK<F, B> {
-        return AC.runAsync { proc ->
+            onSuccess: (A) -> B, AC: Async<F>): HK<F, B> {
+        return AC.async { proc ->
             async(CommonPool) {
                 val result = Try { f() }.fold(onError, onSuccess)
                 proc(result.right())
