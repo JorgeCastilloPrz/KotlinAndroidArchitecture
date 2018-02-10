@@ -1,21 +1,17 @@
 package com.github.jorgecastillo.kotlinandroid.tagless.algebras.business
 
-import arrow.HK
-import arrow.TC
-import arrow.typeclass
+import arrow.Kind
 import com.github.jorgecastillo.kotlinandroid.tagless.algebras.persistence.HeroesRepository
 import com.karumi.marvelapiclient.model.CharacterDto
+import javax.inject.Inject
 
-@typeclass
-interface HeroesUseCases<F> : TC {
+class HeroesUseCases<F> @Inject constructor(val repository: HeroesRepository<F>) {
 
-    fun repository(): HeroesRepository<F>
+    fun getHeroes(): Kind<F, List<CharacterDto>> =
+            repository.getHeroesWithCachePolicy(HeroesRepository.CachePolicy.NetworkOnly)
 
-    fun getHeroes(): HK<F, List<CharacterDto>> =
-            repository().getHeroesWithCachePolicy(HeroesRepository.CachePolicy.NetworkOnly)
-
-    fun getHeroDetails(heroId: String): HK<F, CharacterDto> =
-            repository().getHeroDetails(HeroesRepository.CachePolicy.NetworkOnly, heroId)
+    fun getHeroDetails(heroId: String): Kind<F, CharacterDto> =
+            repository.getHeroDetails(HeroesRepository.CachePolicy.NetworkOnly, heroId)
 
 
 }

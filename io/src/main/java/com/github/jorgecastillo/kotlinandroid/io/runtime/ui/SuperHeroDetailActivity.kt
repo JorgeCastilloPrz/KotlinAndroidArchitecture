@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import arrow.effects.ev
+import arrow.effects.extract
 import com.github.jorgecastillo.kotlinandroid.R
 import com.github.jorgecastillo.kotlinandroid.R.string
 import com.github.jorgecastillo.kotlinandroid.io.algebras.ui.Presentation
@@ -41,7 +41,7 @@ class SuperHeroDetailActivity : AppCompatActivity(), SuperHeroDetailView {
     intent.extras?.let {
       val heroId = it.getString(
           EXTRA_HERO_ID)
-      Presentation.drawSuperHeroDetails(heroId, this).ev().unsafeRunAsync { }
+      Presentation.drawSuperHeroDetails(heroId, this).extract().unsafeRunAsync { }
     } ?: closeWithError()
   }
 

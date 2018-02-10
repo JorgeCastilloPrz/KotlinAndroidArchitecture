@@ -1,14 +1,15 @@
 package com.github.jorgecastillo.kotlinandroid.io.algebras.persistence
 
-import arrow.HK
+import arrow.Kind
 import arrow.data.Try
 import arrow.effects.Async
 import arrow.effects.IO
 import arrow.effects.async
-import arrow.effects.ev
+import arrow.effects.extract
 import arrow.effects.monadError
 import arrow.syntax.either.right
 import arrow.typeclasses.binding
+import arrow.typeclasses.bindingCatch
 import com.github.jorgecastillo.kotlinandroid.BuildConfig
 import com.karumi.marvelapiclient.CharacterApiClient
 import com.karumi.marvelapiclient.MarvelApiConfig
@@ -36,7 +37,7 @@ object DataSource {
   private fun <F, A, B> runInAsyncContext(
       f: () -> A,
       onError: (Throwable) -> B,
-      onSuccess: (A) -> B, AC: Async<F>): HK<F, B> {
+      onSuccess: (A) -> B, AC: Async<F>): Kind<F, B> {
     return AC.async { proc ->
       async(CommonPool) {
         val result = Try { f() }.fold(onError, onSuccess)
@@ -49,24 +50,26 @@ object DataSource {
     val monadError = IO.monadError()
     return monadError.binding {
       val query = buildFetchHeroesQuery()
-      runInAsyncContext(
+      val result = runInAsyncContext(
           f = { fetchHeroes(query) },
           onError = { monadError.raiseError<List<CharacterDto>>(it) },
           onSuccess = { monadError.pure(it) },
           AC = IO.async()
       ).bind()
-    }.ev()
+      result.bind()
+    }.extract()
   }
 
   fun fetchHeroDetails(heroId: String): IO<CharacterDto> {
     val monadError = IO.monadError()
     return monadError.binding {
-      runInAsyncContext(
+      val result = runInAsyncContext(
           f = { fetchHero(heroId) },
           onError = { monadError.raiseError<CharacterDto>(it) },
           onSuccess = { monadError.pure(it) },
           AC = IO.async()
       ).bind()
-    }.ev()
+      result.bind()
+    }.extract()
   }
 }

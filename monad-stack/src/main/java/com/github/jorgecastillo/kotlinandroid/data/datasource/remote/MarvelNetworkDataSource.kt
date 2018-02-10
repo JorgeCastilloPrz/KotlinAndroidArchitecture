@@ -1,7 +1,7 @@
 package com.github.jorgecastillo.kotlinandroid.data.datasource.remote
 
-import arrow.HK
-import arrow.core.IdHK
+import arrow.Kind
+import arrow.core.ForId
 import arrow.data.Reader
 import arrow.data.Try
 import arrow.data.map
@@ -25,24 +25,26 @@ import kotlinx.coroutines.experimental.async
  * required execution context.
  */
 
-fun fetchAllHeroes() = Reader.ask<IdHK, GetHeroesContext>().map({ ctx ->
+fun fetchAllHeroes() = Reader.ask<ForId, GetHeroesContext>().map({ ctx ->
   IO.monadSuspend().bindingCatch {
-    runInAsyncContext(
+    val result = runInAsyncContext(
         f = { queryForHeroes(ctx) },
         onError = { IO.raiseError<List<CharacterDto>>(it) },
         onSuccess = { IO.pure(it) },
         AC = ctx.threading
     ).bind()
+    result.bind()
   }
 })
 
-fun fetchHeroDetails(heroId: String) = Reader.ask<IdHK, GetHeroDetailsContext>().map({ ctx ->
+fun fetchHeroDetails(heroId: String) = Reader.ask<ForId, GetHeroDetailsContext>().map({ ctx ->
   IO.monadSuspend().bindingCatch {
-    runInAsyncContext(
+    val result = runInAsyncContext(
         f = { queryForHero(ctx, heroId) },
         onError = { IO.raiseError<List<CharacterDto>>(it) },
         onSuccess = { IO.pure(it) },
         AC = ctx.threading).bind()
+    result.bind()
   }
 })
 
@@ -60,7 +62,7 @@ private fun queryForHero(ctx: GetHeroDetailsContext, heroId: String): List<Chara
 private fun <F, A, B> runInAsyncContext(
     f: () -> A,
     onError: (Throwable) -> B,
-    onSuccess: (A) -> B, AC: Async<F>): HK<F, B> {
+    onSuccess: (A) -> B, AC: Async<F>): Kind<F, B> {
   return AC.async { proc ->
     async(CommonPool) {
       val result = Try { f() }.fold(onError, onSuccess)

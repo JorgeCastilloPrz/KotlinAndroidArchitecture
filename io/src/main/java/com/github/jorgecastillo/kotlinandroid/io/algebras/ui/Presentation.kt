@@ -2,7 +2,7 @@ package com.github.jorgecastillo.kotlinandroid.io.algebras.ui
 
 import android.content.Context
 import arrow.effects.IO
-import arrow.effects.ev
+import arrow.effects.extract
 import arrow.effects.monadError
 import arrow.typeclasses.binding
 import com.github.jorgecastillo.kotlinandroid.io.algebras.business.HeroesUseCases
@@ -42,7 +42,7 @@ object Presentation {
         is CharacterError.NotFoundError -> view.showNotFoundError()
         is CharacterError.UnknownServerError -> view.showGenericError()
         is CharacterError.AuthenticationError -> view.showAuthenticationError()
-      }).ev()
+      }).extract()
 
   fun drawSuperHeroes(view: SuperHeroesListView): IO<Unit> {
     val monadError = IO.monadError()
@@ -54,8 +54,8 @@ object Presentation {
             it.name,
             it.thumbnail.getImageUrl(PORTRAIT_UNCANNY),
             it.description)
-      }))
-    }.ev()
+      })).bind()
+    }.extract()
   }
 
   fun drawSuperHeroDetails(heroId: String, view: SuperHeroDetailView): IO<Unit> {
@@ -67,7 +67,7 @@ object Presentation {
           result.id,
           result.name,
           result.thumbnail.getImageUrl(PORTRAIT_UNCANNY),
-          result.description)))
-    }.ev()
+          result.description))).bind()
+    }.extract()
   }
 }

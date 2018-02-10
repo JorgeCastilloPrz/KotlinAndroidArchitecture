@@ -1,12 +1,12 @@
 package com.github.jorgecastillo.kotlinandroid.presentation
 
-import arrow.core.IdHK
+import arrow.core.ForId
 import arrow.core.Some
 import arrow.core.identity
 import arrow.data.Reader
 import arrow.data.flatMap
 import arrow.data.map
-import arrow.effects.ev
+import arrow.effects.extract
 import com.github.jorgecastillo.kotlinandroid.di.context.SuperHeroesContext.GetHeroDetailsContext
 import com.github.jorgecastillo.kotlinandroid.di.context.SuperHeroesContext.GetHeroesContext
 import com.github.jorgecastillo.kotlinandroid.domain.model.CharacterError
@@ -36,13 +36,13 @@ interface SuperHeroDetailView : HeroesView {
   fun drawHero(hero: SuperHeroViewModel)
 }
 
-fun onHeroListItemClick(heroId: String) = Reader.ask<IdHK, GetHeroesContext>().flatMap({
+fun onHeroListItemClick(heroId: String) = Reader.ask<ForId, GetHeroesContext>().flatMap({
   it.heroDetailsPage.go(heroId)
 })
 
-fun getSuperHeroes() = Reader.ask<IdHK, GetHeroesContext>().flatMap({ (_, view: SuperHeroesListView) ->
+fun getSuperHeroes() = Reader.ask<ForId, GetHeroesContext>().flatMap({ (_, view: SuperHeroesListView) ->
   getHeroesUseCase().map({ io ->
-    io.ev().unsafeRunAsync { maybeHeroes ->
+    io.extract().unsafeRunAsync { maybeHeroes ->
       maybeHeroes.bimap(::exceptionAsCharacterError, ::identity).fold(
           { error -> drawError(error, view) },
           { success -> drawHeroes(view, success) })
@@ -50,10 +50,10 @@ fun getSuperHeroes() = Reader.ask<IdHK, GetHeroesContext>().flatMap({ (_, view: 
   })
 })
 
-fun getSuperHeroDetails(heroId: String) = Reader.ask<IdHK, GetHeroDetailsContext>()
+fun getSuperHeroDetails(heroId: String) = Reader.ask<ForId, GetHeroDetailsContext>()
     .flatMap({ (_, view: SuperHeroDetailView) ->
       getHeroDetailsUseCase(heroId).map({ io ->
-        io.ev().unsafeRunAsync { maybeHeroes ->
+        io.extract().unsafeRunAsync { maybeHeroes ->
           maybeHeroes.bimap(::exceptionAsCharacterError, ::identity).fold(
               { error -> drawError(error, view) },
               { hero -> drawHero(hero, view) })

@@ -1,10 +1,9 @@
 package com.github.jorgecastillo.kotlinandroid.presentation
 
 import arrow.core.Either
-import arrow.core.Option
 import arrow.core.Some
 import arrow.core.identity
-import arrow.free.ev
+import arrow.free.extract
 import arrow.typeclasses.binding
 import com.github.jorgecastillo.kotlinandroid.domain.model.CharacterError
 import com.github.jorgecastillo.kotlinandroid.free.algebra.*
@@ -33,14 +32,14 @@ fun showSuperHeroes(): FreeHeroesAlgebra<Unit> =
         val res: Either<Throwable, List<CharacterDto>> = attempt(getAllHeroes()).bind()
         val efRes = handlePresentationEffects(res.bimap(::exceptionAsCharacterError, ::identity)).bind()
         yields(efRes)
-    }.ev()
+    }.extract()
 
 fun showSuperHeroDetail(heroId: String): FreeHeroesAlgebra<Unit> =
         HeroesAlgebra.binding {
             val res: Either<Throwable, CharacterDto> = attempt(getSingleHero(heroId)).bind()
             val efRes = handlePresentationEffects(res.bimap(::exceptionAsCharacterError, ::listOf)).bind()
             yields(efRes)
-        }.ev()
+        }.extract()
 
 
 fun exceptionAsCharacterError(e: Throwable): CharacterError =

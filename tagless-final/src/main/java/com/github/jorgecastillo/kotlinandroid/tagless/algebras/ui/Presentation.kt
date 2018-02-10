@@ -1,16 +1,19 @@
 package com.github.jorgecastillo.kotlinandroid.tagless.algebras.ui
 
 import android.content.Context
-import arrow.HK
+import arrow.Kind
 import arrow.TC
+import arrow.effects.MonadSuspend
 import arrow.typeclass
 import arrow.typeclasses.MonadError
 import arrow.typeclasses.binding
+import arrow.typeclasses.bindingCatch
 import com.github.jorgecastillo.kotlinandroid.tagless.algebras.business.HeroesUseCases
 import com.github.jorgecastillo.kotlinandroid.tagless.algebras.business.model.CharacterError
 import com.github.jorgecastillo.kotlinandroid.tagless.algebras.ui.model.SuperHeroViewModel
 import com.karumi.marvelapiclient.model.CharacterDto
 import com.karumi.marvelapiclient.model.MarvelImage
+import javax.inject.Inject
 
 interface SuperHeroesView {
 
@@ -33,46 +36,44 @@ interface SuperHeroDetailView : SuperHeroesView {
 
 }
 
-@typeclass
-interface Presentation<F> : TC {
+class Presentation<F> @Inject constructor(
+        val navigation: Navigation<F>,
+        val heroesService: HeroesUseCases<F>,
+        val monadSuspend: MonadSuspend<F>) {
 
-    fun navigation(): Navigation<F>
+    fun onHeroListItemClick(ctx: Context, heroId: String): Kind<F, Unit> =
+            navigation.goToHeroDetailsPage(ctx, heroId)
 
-    fun heroesService(): HeroesUseCases<F>
+    fun displayErrors(view: SuperHeroesView, t: Throwable): Kind<F, Unit> =
+            monadSuspend {
+                when (CharacterError.fromThrowable(t)) {
+                    is CharacterError.NotFoundError -> view.showNotFoundError()
+                    is CharacterError.UnknownServerError -> view.showGenericError()
+                    is CharacterError.AuthenticationError -> view.showAuthenticationError()
+                }
+            }
 
-    fun ME(): MonadError<F, Throwable>
-
-    fun onHeroListItemClick(ctx: Context, heroId: String): HK<F, Unit> =
-            navigation().goToHeroDetailsPage(ctx, heroId)
-
-    fun displayErrors(view: SuperHeroesView, t: Throwable): HK<F, Unit> =
-            ME().pure(when (CharacterError.fromThrowable(t)) {
-                is CharacterError.NotFoundError -> view.showNotFoundError()
-                is CharacterError.UnknownServerError -> view.showGenericError()
-                is CharacterError.AuthenticationError -> view.showAuthenticationError()
-            })
-
-    fun drawSuperHeroes(view: SuperHeroesListView): HK<F, Unit> =
-            ME().binding {
-                val result = ME().handleError(heroesService().getHeroes(), { displayErrors(view, it); emptyList() }).bind()
-                ME().pure(view.drawHeroes(result.map {
+    fun drawSuperHeroes(view: SuperHeroesListView): Kind<F, Unit> =
+            monadSuspend.bindingCatch {
+                val result = monadSuspend.handleError(heroesService.getHeroes(), { displayErrors(view, it); emptyList() }).bind()
+                monadSuspend.pure(view.drawHeroes(result.map {
                     SuperHeroViewModel(
                             it.id,
                             it.name,
                             it.thumbnail.getImageUrl(MarvelImage.Size.PORTRAIT_UNCANNY),
                             it.description)
-                }))
+                })).bind()
             }
 
 
-    fun drawSuperHeroDetails(heroId: String, view: SuperHeroDetailView): HK<F, Unit> =
-            ME().binding {
-                val result = ME().handleError(heroesService().getHeroDetails(heroId), { displayErrors(view, it); CharacterDto() }).bind()
-                ME().pure(view.drawHero(SuperHeroViewModel(
+    fun drawSuperHeroDetails(heroId: String, view: SuperHeroDetailView): Kind<F, Unit> =
+            monadSuspend.bindingCatch {
+                val result = monadSuspend.handleError(heroesService.getHeroDetails(heroId), { displayErrors(view, it); CharacterDto() }).bind()
+                monadSuspend.pure(view.drawHero(SuperHeroViewModel(
                         result.id,
                         result.name,
                         result.thumbnail.getImageUrl(MarvelImage.Size.PORTRAIT_UNCANNY),
-                        result.description)))
+                        result.description))).bind()
             }
 
 }

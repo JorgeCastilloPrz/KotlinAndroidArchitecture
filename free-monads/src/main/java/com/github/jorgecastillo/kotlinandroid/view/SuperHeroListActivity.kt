@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import arrow.effects.IO
 import arrow.effects.async
-import arrow.effects.ev
+import arrow.effects.extract
 import arrow.effects.monadError
 import arrow.free.foldMap
 import com.github.jorgecastillo.kotlinandroid.R
@@ -65,6 +65,6 @@ class SuperHeroListActivity : AppCompatActivity(), SuperHeroesListView {
 
 fun <A> FreeHeroesAlgebra<A>.unsafePerformEffects(ctx: SuperHeroesContext): Unit {
   val ME = IO.monadError()
-  val result: IO<A> = this.foldMap(interpreter(ctx, ME, IO.async()), ME).ev()
+  val result: IO<A> = this.foldMap(interpreter(ctx, ME, IO.async()), ME).extract()
   result.unsafeRunAsync { TODO() }
 }
