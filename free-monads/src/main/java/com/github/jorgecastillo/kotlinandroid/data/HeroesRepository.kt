@@ -1,12 +1,9 @@
 package com.github.jorgecastillo.kotlinandroid.data
 
-import com.github.jorgecastillo.kotlinandroid.data.CachePolicy.LocalFirst
-import com.github.jorgecastillo.kotlinandroid.data.CachePolicy.LocalOnly
-import com.github.jorgecastillo.kotlinandroid.data.CachePolicy.NetworkFirst
-import com.github.jorgecastillo.kotlinandroid.data.CachePolicy.NetworkOnly
+import com.github.jorgecastillo.kotlinandroid.data.CachePolicy.*
 import com.github.jorgecastillo.kotlinandroid.free.algebra.FreeHeroesAlgebra
-import com.github.jorgecastillo.kotlinandroid.free.algebra.getAllHeroes
-import com.github.jorgecastillo.kotlinandroid.free.algebra.getSingleHero
+import com.github.jorgecastillo.kotlinandroid.free.algebra.HeroesAlgebra.Companion.getAllHeroes
+import com.github.jorgecastillo.kotlinandroid.free.algebra.HeroesAlgebra.Companion.getSingleHero
 import com.karumi.marvelapiclient.model.CharacterDto
 
 sealed class CachePolicy {

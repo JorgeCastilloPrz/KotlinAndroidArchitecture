@@ -35,11 +35,11 @@ fun <F> interpreter(ctx: SuperHeroesContext, ME: MonadError<F, Throwable>,
           is HeroesAlgebra.GetAll -> getAllHeroesImpl(ctx, ME, AC)
           is HeroesAlgebra.GetSingle -> getHeroDetailsImpl(ctx, ME, AC, op.heroId)
           is HeroesAlgebra.HandlePresentationEffects -> {
-            ME.catch({ handlePresentationEffectsImpl(ctx, op.result) })
+            ME.run { catch { handlePresentationEffectsImpl(ctx, op.result) } }
           }
           is HeroesAlgebra.Attempt<*> -> {
             val result = op.fa.foldMap(interpreter(ctx, ME, AC), ME)
-            ME.attempt(result)
+            ME.run { result.attempt() }
           }
         } as Kind<F, A>
       }

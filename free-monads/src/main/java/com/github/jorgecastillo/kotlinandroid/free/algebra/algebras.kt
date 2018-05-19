@@ -48,5 +48,5 @@ sealed class HeroesAlgebra<A> : Kind<HeroesAlgebra.F, A> {
 }
 
 inline fun <reified F> Free<HeroesAlgebra.F, List<CharacterDto>>.run(
-    interpreter: FunctionK<HeroesAlgebra.F, F>, MF: Monad<F> = monad()): Kind<F, List<CharacterDto>> =
+    interpreter: FunctionK<HeroesAlgebra.F, F>, MF: Monad<F>): Kind<F, List<CharacterDto>> =
     this.foldMap(interpreter, MF)
