@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.github.jorgecastillo.kotlinandroid.R
 import com.github.jorgecastillo.kotlinandroid.R.string
-import com.github.jorgecastillo.kotlinandroid.di.context.SuperHeroesContext.GetHeroDetailsContext
+import com.github.jorgecastillo.kotlinandroid.context.SuperHeroesContext.GetHeroDetailsContext
 import com.github.jorgecastillo.kotlinandroid.presentation.SuperHeroDetailView
 import com.github.jorgecastillo.kotlinandroid.presentation.showSuperHeroDetail
 import com.github.jorgecastillo.kotlinandroid.view.viewmodel.SuperHeroViewModel

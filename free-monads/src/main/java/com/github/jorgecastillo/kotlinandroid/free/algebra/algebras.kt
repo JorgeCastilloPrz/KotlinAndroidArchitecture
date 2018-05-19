@@ -43,7 +43,6 @@ sealed class HeroesAlgebra<A> : Kind<HeroesAlgebra.F, A> {
 
     fun <A> attempt(fa: FreeHeroesAlgebra<A>): FreeHeroesAlgebra<Either<Throwable, A>> =
         Free.liftF(HeroesAlgebra.Attempt(fa))
-
   }
 }
 

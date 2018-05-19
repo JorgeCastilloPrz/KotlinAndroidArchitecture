@@ -11,9 +11,9 @@ import arrow.effects.typeclasses.Async
 import arrow.free.foldMap
 import arrow.typeclasses.MonadError
 import arrow.typeclasses.bindingCatch
-import com.github.jorgecastillo.kotlinandroid.di.context.SuperHeroesContext
-import com.github.jorgecastillo.kotlinandroid.di.context.SuperHeroesContext.GetHeroDetailsContext
-import com.github.jorgecastillo.kotlinandroid.di.context.SuperHeroesContext.GetHeroesContext
+import com.github.jorgecastillo.kotlinandroid.context.SuperHeroesContext
+import com.github.jorgecastillo.kotlinandroid.context.SuperHeroesContext.GetHeroDetailsContext
+import com.github.jorgecastillo.kotlinandroid.context.SuperHeroesContext.GetHeroesContext
 import com.github.jorgecastillo.kotlinandroid.domain.model.CharacterError
 import com.github.jorgecastillo.kotlinandroid.domain.model.CharacterError.*
 import com.github.jorgecastillo.kotlinandroid.free.algebra.HeroesAlgebra
