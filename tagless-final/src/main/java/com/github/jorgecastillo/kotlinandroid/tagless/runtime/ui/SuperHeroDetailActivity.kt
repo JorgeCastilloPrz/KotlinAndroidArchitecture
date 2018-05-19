@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
-import arrow.effects.extract
+import arrow.effects.fix
 import com.github.jorgecastillo.kotlinandroid.R
 import com.github.jorgecastillo.kotlinandroid.R.string
 import com.github.jorgecastillo.kotlinandroid.tagless.algebras.ui.SuperHeroDetailView
@@ -17,10 +17,10 @@ import kotlinx.android.synthetic.main.activity_detail.*
 
 class SuperHeroDetailActivity : AppCompatActivity(), SuperHeroDetailView {
 
-    val pres = instances().presentation()
+    private val pres = instances().presentation()
 
     companion object {
-        val EXTRA_HERO_ID = "EXTRA_HERO_ID"
+        const val EXTRA_HERO_ID = "EXTRA_HERO_ID"
 
         fun launch(source: Context, heroId: String) {
             val intent = Intent(source, SuperHeroDetailActivity::class.java)
@@ -38,7 +38,7 @@ class SuperHeroDetailActivity : AppCompatActivity(), SuperHeroDetailView {
         super.onResume()
         intent.extras?.let {
             val heroId = it.getString(EXTRA_HERO_ID)
-            pres.drawSuperHeroDetails(heroId, this).extract().unsafeRunAsync { }
+            pres.drawSuperHeroDetails(heroId, this).fix().unsafeRunAsync { }
         } ?: closeWithError()
     }
 
