@@ -16,9 +16,9 @@ typealias FreeHeroesAlgebra<A> = Free<HeroesAlgebra.F, A>
 
 
 /**
- * Algebra for Hero data sources. Algebras are defined by a sealed class (ADT) with a limited amount of implementations reflecting the operations available.
+ * Algebra for Hero data sources. Algebras are defined by a sealed class (ADT) with a limited
+ * amount of implementations reflecting the operations available.
  */
-@higherkind
 sealed class HeroesAlgebra<A> : Kind<HeroesAlgebra.F, A> {
   class F private constructor()
 
