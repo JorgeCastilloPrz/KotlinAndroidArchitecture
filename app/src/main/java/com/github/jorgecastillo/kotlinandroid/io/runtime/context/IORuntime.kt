@@ -13,15 +13,15 @@ import kotlinx.coroutines.CoroutineDispatcher
  */
 @Suppress("DELEGATED_MEMBER_HIDES_SUPERTYPE_OVERRIDE")
 abstract class Runtime<F>(
-  val mainDispatcher: CoroutineDispatcher,
-  val bgDispatcher: CoroutineDispatcher,
-  concurrent: Concurrent<F>
+        concurrent: Concurrent<F>,
+        val mainDispatcher: CoroutineDispatcher,
+        val bgDispatcher: CoroutineDispatcher
 ) : Concurrent<F> by concurrent
 
 fun IO.Companion.runtime(ctx: RuntimeContext) =
-  object : Runtime<ForIO>(ctx.mainDispatcher, ctx.bgDispatcher, IO.concurrent()) {}
+        object : Runtime<ForIO>(IO.concurrent(), ctx.mainDispatcher, ctx.bgDispatcher) {}
 
 data class RuntimeContext(
-  val bgDispatcher: CoroutineDispatcher,
-  val mainDispatcher: CoroutineDispatcher
+        val bgDispatcher: CoroutineDispatcher,
+        val mainDispatcher: CoroutineDispatcher
 )
