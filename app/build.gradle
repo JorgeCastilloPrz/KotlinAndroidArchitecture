@@ -62,19 +62,18 @@ detekt {
 }
 
 dependencies {
-  implementation "androidx.appcompat:appcompat:1.1.0"
-  implementation "androidx.cardview:cardview:1.0.0"
-  implementation "com.google.android.material:material:1.2.0-alpha01"
-  implementation "androidx.recyclerview:recyclerview:1.1.0-rc01"
-  implementation "androidx.constraintlayout:constraintlayout:1.1.3"
-  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+  implementation "androidx.appcompat:appcompat:$appCompatVersion"
+  implementation "androidx.cardview:cardview:$cardViewVersion"
+  implementation "com.google.android.material:material:$materialVersion"
+  implementation "androidx.recyclerview:recyclerview:$recyclerViewVersion"
+  implementation "androidx.constraintlayout:constraintlayout:$constraintLayoutVersion"
+  implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion"
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
-  implementation "com.squareup.picasso:picasso:2.71828"
+  implementation "com.squareup.picasso:picasso:$picassoVersion"
+  implementation "com.karumi:marvelapiclient:$marvelApiClientVersion"
 
-  kapt "io.arrow-kt:arrow-meta:$arrow_version"
-  implementation "io.arrow-kt:arrow-core:$arrow_version"
-  implementation "io.arrow-kt:arrow-fx:$arrow_version"
-
-  implementation 'com.karumi:marvelapiclient:1.0.1'
+  kapt "io.arrow-kt:arrow-meta:$arrowVersion"
+  implementation "io.arrow-kt:arrow-core:$arrowVersion"
+  implementation "io.arrow-kt:arrow-fx:$arrowVersion"
 }
