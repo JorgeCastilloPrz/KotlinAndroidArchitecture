@@ -13,9 +13,6 @@ potential-bugs:
 exceptions:
   active: true
 
-comments:
-  active: true
-
 empty:
   active: true
 
@@ -33,8 +30,6 @@ complexity:
     active: false
   ComplexCondition:
     threshold: 3
-  TooManyFunctions:
-    active: false
 
 code-smell:
   active: true
@@ -94,8 +89,6 @@ style:
     methodPattern: '^[a-z$][a-zA-Z$0-9]*$'
     classPattern: '[A-Z$][a-zA-Z$]*'
     enumEntryPattern: '^[A-Z$][a-zA-Z_$]*$'
-  WildcardImport:
-    active: false
 
 comments:
   active: true
