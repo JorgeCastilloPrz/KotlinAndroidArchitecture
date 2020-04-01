@@ -5,7 +5,6 @@ import arrow.core.toOption
 import com.github.jorgecastillo.kotlinandroid.io.algebras.business.model.NewsItem
 import com.github.jorgecastillo.kotlinandroid.io.algebras.data.network.dto.NewsResponse
 import com.github.jorgecastillo.kotlinandroid.io.algebras.data.network.error.NetworkError.NotFound
-import com.github.jorgecastillo.kotlinandroid.io.algebras.data.network.error.NetworkError.ServerError
 import com.github.jorgecastillo.kotlinandroid.io.algebras.data.network.mapper.normalizeError
 import com.github.jorgecastillo.kotlinandroid.io.algebras.data.network.mapper.toDomain
 import com.github.jorgecastillo.kotlinandroid.io.algebras.data.network.mapper.toNetworkError
@@ -13,7 +12,7 @@ import com.github.jorgecastillo.kotlinandroid.io.runtime.context.Runtime
 import retrofit2.Response
 
 fun <F> Runtime<F>.loadNews(): Kind<F, List<NewsItem>> = fx.concurrent {
-    val response = !effect(context.bgDispatcher) { fetchNews() }
+    val response = !effect(context.bgDispatcher) { context.newsService.fetchNews() }
     continueOn(context.mainDispatcher)
 
     if (response.isSuccessful) {
@@ -24,7 +23,7 @@ fun <F> Runtime<F>.loadNews(): Kind<F, List<NewsItem>> = fx.concurrent {
 }.handleErrorWith { error -> raiseError(error.normalizeError()) }
 
 fun <F> Runtime<F>.loadNewsItemDetails(title: String): Kind<F, NewsItem> = fx.concurrent {
-    val response = !effect(context.bgDispatcher) { fetchNews() }
+    val response = !effect(context.bgDispatcher) { context.newsService.fetchNews() }
     continueOn(context.mainDispatcher)
 
     if (response.isSuccessful) {
@@ -37,6 +36,8 @@ fun <F> Runtime<F>.loadNewsItemDetails(title: String): Kind<F, NewsItem> = fx.co
     }
 }.handleErrorWith { error -> raiseError(error.normalizeError()) }
 
-private fun <F> Runtime<F>.fetchNews() = context.newsService.fetchNews("android").execute()
+// It's okay to suppress this warning here because "suspend" merely represents a side effect
+@Suppress("BlockingMethodInNonBlockingContext")
+private suspend fun NewsApiService.fetchNews() = fetchNews("android").execute()
 
 private fun Response<NewsResponse>.news() = body()!!.articles
