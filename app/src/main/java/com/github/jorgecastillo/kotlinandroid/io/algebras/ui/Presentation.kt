@@ -11,25 +11,25 @@ import com.github.jorgecastillo.kotlinandroid.io.runtime.context.Runtime
 
 interface NewsView {
 
-    fun showLoading(): Unit
+    suspend fun showLoading(): Unit
 
-    fun hideLoading(): Unit
+    suspend fun hideLoading(): Unit
 
-    fun showNotFoundError(): Unit
+    suspend fun showNotFoundError(): Unit
 
-    fun showGenericError(): Unit
+    suspend fun showGenericError(): Unit
 
-    fun showAuthenticationError(): Unit
+    suspend fun showAuthenticationError(): Unit
 }
 
 interface NewsListView : NewsView {
 
-    fun drawNews(news: List<NewsItemViewState>): Unit
+    suspend fun drawNews(news: List<NewsItemViewState>): Unit
 }
 
 interface NewsItemDetailView : NewsView {
 
-    fun drawNewsItem(newsItem: NewsItemViewState)
+    suspend fun drawNewsItem(newsItem: NewsItemViewState)
 }
 
 /**
@@ -43,7 +43,7 @@ fun <F> Runtime<F>.onNewsItemClick(
 ): Kind<F, Unit> =
     goToNewsItemDetail(ctx, title)
 
-private fun displayErrors(
+private suspend fun displayErrors(
     view: NewsView,
     t: Throwable
 ): Unit {

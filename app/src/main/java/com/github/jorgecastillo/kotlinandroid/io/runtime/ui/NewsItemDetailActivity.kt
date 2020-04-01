@@ -66,29 +66,29 @@ class NewsItemDetailActivity : AppCompatActivity(), NewsItemDetailView {
         Toast.makeText(this, string.news_id_needed, Toast.LENGTH_SHORT).show()
     }
 
-    override fun showLoading() {
+    override suspend fun showLoading() {
         loader.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override suspend fun hideLoading() {
         loader.visibility = View.GONE
     }
 
-    override fun drawNewsItem(newsItem: NewsItemViewState) {
+    override suspend fun drawNewsItem(newsItem: NewsItemViewState) {
         collapsingToolbar.title = newsItem.title
         description.text = newsItem.description ?: getString(string.empty_description)
         newsItem.photoUrl?.let { url -> headerImage.loadImageAsync(url) }
     }
 
-    override fun showNotFoundError() {
+    override suspend fun showNotFoundError() {
         Snackbar.make(appBar, string.not_found, Snackbar.LENGTH_SHORT).show()
     }
 
-    override fun showGenericError() {
+    override suspend fun showGenericError() {
         Snackbar.make(appBar, string.generic, Snackbar.LENGTH_SHORT).show()
     }
 
-    override fun showAuthenticationError() {
+    override suspend fun showAuthenticationError() {
         Snackbar.make(appBar, string.authentication, Snackbar.LENGTH_SHORT).show()
     }
 }

@@ -54,28 +54,28 @@ class AndroidNewsListActivity : AppCompatActivity(), NewsListView {
         }
     }
 
-    override fun showLoading() {
+    override suspend fun showLoading() {
         loader.visibility = View.VISIBLE
     }
 
-    override fun hideLoading() {
+    override suspend fun hideLoading() {
         loader.visibility = View.GONE
     }
 
-    override fun drawNews(news: List<NewsItemViewState>) {
+    override suspend fun drawNews(news: List<NewsItemViewState>) {
         adapter.news = news
         adapter.notifyDataSetChanged()
     }
 
-    override fun showNotFoundError() {
+    override suspend fun showNotFoundError() {
         Snackbar.make(newsList, R.string.not_found, Snackbar.LENGTH_SHORT).show()
     }
 
-    override fun showGenericError() {
+    override suspend fun showGenericError() {
         Snackbar.make(newsList, R.string.generic, Snackbar.LENGTH_SHORT).show()
     }
 
-    override fun showAuthenticationError() {
+    override suspend fun showAuthenticationError() {
         Snackbar.make(newsList, R.string.authentication, Snackbar.LENGTH_SHORT).show()
     }
 }
